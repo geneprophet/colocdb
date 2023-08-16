@@ -25,6 +25,9 @@ public class Smr {
     private String molecule;
 
     @Column
+    private String qtl_type;
+
+    @Column
     private String tissue;
 
     @Column

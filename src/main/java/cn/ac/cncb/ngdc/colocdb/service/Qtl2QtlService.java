@@ -85,7 +85,7 @@ public class Qtl2QtlService {
         }
     }
 
-    public Result queryQtl2qtlLike(Integer pageSize, Integer pageIndex, String qtl1, String qtl2, String locus,  String probe_qtl1 ,String probe_qtl2 ,String gene_id_qtl1 , String gene_id_qtl2 ,String coloc_snp){
+    public Result queryQtl2qtlLike(Integer pageSize, Integer pageIndex, String keyword,String qtl1, String qtl2, String locus,  String probe_qtl1 ,String probe_qtl2 ,String gene_id_qtl1 , String gene_id_qtl2 ,String coloc_snp,String sort_field, String sort_direction){
         Long total = 0L;
         List<Qtl2Qtl> data = null;
         Meta meta = new Meta();
@@ -93,34 +93,96 @@ public class Qtl2QtlService {
         Specification<Qtl2Qtl> queryCondition = new Specification<Qtl2Qtl>(){
             @Override
             public Predicate toPredicate(Root<Qtl2Qtl> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicateList = new ArrayList<>();
-                if (qtl1 != null){
-                    predicateList.add(criteriaBuilder.like(root.get("qtl1"),qtl1+"%"));
+                if (keyword != null){
+                    List<Predicate> predicateListOr = new ArrayList<>();
+//                  只模糊匹配以keywork开头的，如果模糊匹配字段任意位置出现关键词需要两边都加上%
+                    predicateListOr.add(criteriaBuilder.like(root.get("qtl1"),"%"+keyword+"%"));
+                    predicateListOr.add(criteriaBuilder.like(root.get("qtl2"),"%"+keyword+"%"));
+                    predicateListOr.add(criteriaBuilder.like(root.get("locus"),"%"+keyword+"%"));
+                    predicateListOr.add(criteriaBuilder.like(root.get("coloc_snp"),"%"+keyword+"%"));
+                    Predicate predicateOR = criteriaBuilder.or(predicateListOr.toArray(new Predicate[predicateListOr.size()]));
+                    List<Predicate> predicateListAnd = new ArrayList<>();
+                    if (qtl1 != null){
+                        predicateListAnd.add(criteriaBuilder.like(root.get("qtl1"),qtl1+"%"));
+                    }
+                    if (qtl2 != null){
+                        predicateListAnd.add(criteriaBuilder.like(root.get("qtl2"),qtl2+"%"));
+                    }
+                    if (locus != null){
+                        predicateListAnd.add(criteriaBuilder.like(root.get("locus"),locus+"%"));
+                    }
+                    if (probe_qtl1 != null){
+                        predicateListAnd.add(criteriaBuilder.like(root.get("probe_qtl1"),probe_qtl1+"%"));
+                    }
+                    if (probe_qtl2 != null){
+                        predicateListAnd.add(criteriaBuilder.like(root.get("probe_qtl2"),probe_qtl2+"%"));
+                    }
+                    if (gene_id_qtl1 != null){
+                        predicateListAnd.add(criteriaBuilder.like(root.get("gene_id_qtl1"),gene_id_qtl1+"%"));
+                    }
+                    if (gene_id_qtl2 != null){
+                        predicateListAnd.add(criteriaBuilder.like(root.get("gene_id_qtl2"),gene_id_qtl2+"%"));
+                    }
+                    if (coloc_snp != null){
+                        predicateListAnd.add(criteriaBuilder.like(root.get("coloc_snp"),coloc_snp+"%"));
+                    }
+                    Predicate predicateAND = criteriaBuilder.and(predicateListAnd.toArray(new Predicate[predicateListAnd.size()]));
+                    if (sort_direction != null){
+                        if (sort_direction.equals("ascend")){
+                            criteriaQuery.where(predicateOR,predicateAND);
+                            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(sort_field)));
+                            return criteriaQuery.getRestriction();
+                        }else {
+                            criteriaQuery.where(predicateOR,predicateAND);
+                            criteriaQuery.orderBy(criteriaBuilder.desc(root.get(sort_field)));
+                            return criteriaQuery.getRestriction();
+                        }
+                    }else {
+                        criteriaQuery.where(predicateOR,predicateAND);
+                        return criteriaQuery.getRestriction();
+                    }
+                } else {
+                    List<Predicate> predicateList = new ArrayList<>();
+                    if (qtl1 != null){
+                        predicateList.add(criteriaBuilder.like(root.get("qtl1"),qtl1+"%"));
+                    }
+                    if (qtl2 != null){
+                        predicateList.add(criteriaBuilder.like(root.get("qtl2"),qtl2+"%"));
+                    }
+                    if (locus != null){
+                        predicateList.add(criteriaBuilder.like(root.get("locus"),locus+"%"));
+                    }
+                    if (probe_qtl1 != null){
+                        predicateList.add(criteriaBuilder.like(root.get("probe_qtl1"),probe_qtl1+"%"));
+                    }
+                    if (probe_qtl2 != null){
+                        predicateList.add(criteriaBuilder.like(root.get("probe_qtl2"),probe_qtl2+"%"));
+                    }
+                    if (gene_id_qtl1 != null){
+                        predicateList.add(criteriaBuilder.like(root.get("gene_id_qtl1"),gene_id_qtl1+"%"));
+                    }
+                    if (gene_id_qtl2 != null){
+                        predicateList.add(criteriaBuilder.like(root.get("gene_id_qtl2"),gene_id_qtl2+"%"));
+                    }
+                    if (coloc_snp != null){
+                        predicateList.add(criteriaBuilder.like(root.get("coloc_snp"),coloc_snp+"%"));
+                    }
+                    if (sort_direction != null){
+                        if (sort_direction.equals("ascend")){
+                            criteriaQuery.where(criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()])));
+                            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(sort_field)));
+                            return criteriaQuery.getRestriction();
+                        }else {
+                            criteriaQuery.where(criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()])));
+                            criteriaQuery.orderBy(criteriaBuilder.desc(root.get(sort_field)));
+                            return criteriaQuery.getRestriction();
+                        }
+                    }else {
+                        criteriaQuery.where(criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()])));
+                    }
+                    return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
                 }
-                if (qtl2 != null){
-                    predicateList.add(criteriaBuilder.like(root.get("qtl2"),qtl2+"%"));
-                }
-                if (locus != null){
-                    predicateList.add(criteriaBuilder.like(root.get("locus"),locus+"%"));
-                }
-                if (probe_qtl1 != null){
-                    predicateList.add(criteriaBuilder.like(root.get("probe_qtl1"),probe_qtl1+"%"));
-                }
-                if (probe_qtl2 != null){
-                    predicateList.add(criteriaBuilder.like(root.get("probe_qtl2"),probe_qtl2+"%"));
-                }
-                if (gene_id_qtl1 != null){
-                    predicateList.add(criteriaBuilder.like(root.get("gene_id_qtl1"),gene_id_qtl1+"%"));
-                }
-                if (gene_id_qtl2 != null){
-                    predicateList.add(criteriaBuilder.like(root.get("gene_id_qtl2"),gene_id_qtl2+"%"));
-                }
-                if (coloc_snp != null){
-                    predicateList.add(criteriaBuilder.like(root.get("coloc_snp"),coloc_snp+"%"));
-                }
-                criteriaQuery.where(criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()])));
 
-                return criteriaQuery.getRestriction();
             };
         };
         try {

@@ -17,6 +17,7 @@ public class SmrController {
     @GetMapping("/smr")
     public Result querySmr(@RequestParam(value = "trait",required = false) String trait,
                              @RequestParam(value = "tissue",required = false) String tissue,
+                             @RequestParam(value = "qtl_type",required = false) String qtl_type,
                              @RequestParam(value = "gene",required = false) String gene,
                              @RequestParam(value = "topsnp",required = false) String topsnp,
                              @RequestParam(value = "sort_field",required = false) String sort_field,
@@ -24,7 +25,7 @@ public class SmrController {
                              @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize,
                              @RequestParam(value = "pageIndex",required = false,defaultValue = "1") Integer pageIndex
     ){
-        Result res = smrService.querySmr(pageSize,pageIndex-1,trait,tissue,gene,topsnp,sort_field,sort_direction);
+        Result res = smrService.querySmr(pageSize,pageIndex-1,trait,tissue,qtl_type,gene,topsnp,sort_field,sort_direction);
         return res;
     }
 
@@ -33,12 +34,15 @@ public class SmrController {
     public Result querySmrLike(@RequestParam(value = "trait",required = false) String trait,
                              @RequestParam(value = "keyword",required = false) String keyword,
                              @RequestParam(value = "tissue",required = false) String tissue,
+                             @RequestParam(value = "qtl_type",required = false) String qtl_type,
                              @RequestParam(value = "gene",required = false) String gene,
                              @RequestParam(value = "topsnp",required = false) String topsnp,
+                               @RequestParam(value = "sort_field",required = false) String sort_field,
+                               @RequestParam(value = "sort_direction",required = false) String sort_direction,
                              @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize,
                              @RequestParam(value = "pageIndex",required = false,defaultValue = "1") Integer pageIndex
     ){
-        Result res = smrService.querySmrlike(pageSize,pageIndex-1,keyword,trait,tissue,gene,topsnp);
+        Result res = smrService.querySmrlike(pageSize,pageIndex-1,keyword,trait,tissue,qtl_type,gene,topsnp,sort_field,sort_direction);
         return res;
     }
 }

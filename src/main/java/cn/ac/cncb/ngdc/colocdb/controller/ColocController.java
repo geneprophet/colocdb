@@ -58,10 +58,12 @@ public class ColocController {
                              @RequestParam(value = "coloc_snp",required = false) String coloc_snp,
                              @RequestParam(value = "top_snp",required = false) String top_snp,
                              @RequestParam(value = "top_snp_gene",required = false) String top_snp_gene,
+                                 @RequestParam(value = "sort_field",required = false) String sort_field,
+                                 @RequestParam(value = "sort_direction",required = false) String sort_direction,
                                  @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize,
                                  @RequestParam(value = "pageIndex",required = false,defaultValue = "1") Integer pageIndex
     ){
-        Result res = colocService.queryColoclike(pageSize,pageIndex-1,keyword,trait,molecule,tissue,probe,gene_id,coloc_snp,top_snp,top_snp_gene);
+        Result res = colocService.queryColoclike(pageSize,pageIndex-1,keyword,trait,molecule,tissue,probe,gene_id,coloc_snp,top_snp,top_snp_gene,sort_field,sort_direction);
         return res;
     }
 

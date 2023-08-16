@@ -23,7 +23,7 @@ public class SmrService {
     @Autowired
     SmrDAO smrDAO;
 
-    public Result querySmr(Integer pageSize, Integer pageIndex, String trait,String tissue, String gene, String topsnp, String sort_field, String sort_direction){
+    public Result querySmr(Integer pageSize, Integer pageIndex, String trait,String tissue,String qtl_type, String gene, String topsnp, String sort_field, String sort_direction){
         Long total = 0L;
         List<Smr> data = null;
         Meta meta = new Meta();
@@ -37,6 +37,9 @@ public class SmrService {
                 }
                 if (tissue != null){
                     predicateList.add(criteriaBuilder.equal(root.get("tissue"),tissue));
+                }
+                if (qtl_type != null){
+                    predicateList.add(criteriaBuilder.equal(root.get("qtl_type"),qtl_type));
                 }
                 if (gene!= null){
                     predicateList.add(criteriaBuilder.equal(root.get("gene"),gene));
@@ -73,7 +76,7 @@ public class SmrService {
         }
     }
 
-    public Result querySmrlike(Integer pageSize, Integer pageIndex,String keyword, String trait,String tissue, String gene, String topsnp){
+    public Result querySmrlike(Integer pageSize, Integer pageIndex,String keyword, String trait,String tissue,String qtl_type, String gene, String topsnp, String sort_field, String sort_direction){
         Long total = 0L;
         List<Smr> data = null;
         Meta meta = new Meta();
@@ -102,8 +105,20 @@ public class SmrService {
                         predicateListAnd.add(criteriaBuilder.like(root.get("topsnp"),topsnp+"%"));
                     }
                     Predicate predicateAND = criteriaBuilder.and(predicateListAnd.toArray(new Predicate[predicateListAnd.size()]));
-                    criteriaQuery.where(predicateOR,predicateAND);
-                    return criteriaQuery.getRestriction();
+                    if (sort_direction != null){
+                        if (sort_direction.equals("ascend")){
+                            criteriaQuery.where(predicateOR,predicateAND);
+                            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(sort_field)));
+                            return criteriaQuery.getRestriction();
+                        }else {
+                            criteriaQuery.where(predicateOR,predicateAND);
+                            criteriaQuery.orderBy(criteriaBuilder.desc(root.get(sort_field)));
+                            return criteriaQuery.getRestriction();
+                        }
+                    }else {
+                        criteriaQuery.where(predicateOR,predicateAND);
+                        return criteriaQuery.getRestriction();
+                    }
                 } else {
                     List<Predicate> predicateList = new ArrayList<>();
                     if (trait != null){
@@ -112,11 +127,27 @@ public class SmrService {
                     if (tissue != null){
                         predicateList.add(criteriaBuilder.like(root.get("tissue"),tissue+"%"));
                     }
+                    if (qtl_type != null){
+                        predicateList.add(criteriaBuilder.like(root.get("qtl_type"),qtl_type+"%"));
+                    }
                     if (gene != null){
                         predicateList.add(criteriaBuilder.like(root.get("gene"),gene+"%"));
                     }
                     if (topsnp != null){
                         predicateList.add(criteriaBuilder.like(root.get("topsnp"),topsnp+"%"));
+                    }
+                    if (sort_direction != null){
+                        if (sort_direction.equals("ascend")){
+                            criteriaQuery.where(criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()])));
+                            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(sort_field)));
+                            return criteriaQuery.getRestriction();
+                        }else {
+                            criteriaQuery.where(criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()])));
+                            criteriaQuery.orderBy(criteriaBuilder.desc(root.get(sort_field)));
+                            return criteriaQuery.getRestriction();
+                        }
+                    }else {
+                        criteriaQuery.where(criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()])));
                     }
                     return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
                 }

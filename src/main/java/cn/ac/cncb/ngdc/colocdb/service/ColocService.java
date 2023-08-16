@@ -85,7 +85,7 @@ public class ColocService {
             return ResultFactory.buildFailResult(e.toString());
         }
     }
-    public Result queryColoclike(Integer pageSize, Integer pageIndex,String keyword,String trait,String molecule, String tissue, String probe, String gene_id , String coloc_snp,String top_snp,String top_snp_gene){
+    public Result queryColoclike(Integer pageSize, Integer pageIndex,String keyword,String trait,String molecule, String tissue, String probe, String gene_id , String coloc_snp,String top_snp,String top_snp_gene,String sort_field,String sort_direction){
         Long total = 0L;
         List<Coloc> data = null;
         Meta meta = new Meta();
@@ -126,8 +126,20 @@ public class ColocService {
                         predicateListAnd.add(criteriaBuilder.like(root.get("top_snp_gene"),top_snp_gene+"%"));
                     }
                     Predicate predicateAND = criteriaBuilder.and(predicateListAnd.toArray(new Predicate[predicateListAnd.size()]));
-                    criteriaQuery.where(predicateOR,predicateAND);
-                    return criteriaQuery.getRestriction();
+                    if (sort_direction != null){
+                        if (sort_direction.equals("ascend")){
+                            criteriaQuery.where(predicateOR,predicateAND);
+                            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(sort_field)));
+                            return criteriaQuery.getRestriction();
+                        }else {
+                            criteriaQuery.where(predicateOR,predicateAND);
+                            criteriaQuery.orderBy(criteriaBuilder.desc(root.get(sort_field)));
+                            return criteriaQuery.getRestriction();
+                        }
+                    }else {
+                        criteriaQuery.where(predicateOR,predicateAND);
+                        return criteriaQuery.getRestriction();
+                    }
                 } else {
                     List<Predicate> predicateList = new ArrayList<>();
                     if (trait != null){
@@ -153,6 +165,19 @@ public class ColocService {
                     }
                     if (top_snp_gene != null){
                         predicateList.add(criteriaBuilder.like(root.get("top_snp_gene"),top_snp_gene+"%"));
+                    }
+                    if (sort_direction != null){
+                        if (sort_direction.equals("ascend")){
+                            criteriaQuery.where(criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()])));
+                            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(sort_field)));
+                            return criteriaQuery.getRestriction();
+                        }else {
+                            criteriaQuery.where(criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()])));
+                            criteriaQuery.orderBy(criteriaBuilder.desc(root.get(sort_field)));
+                            return criteriaQuery.getRestriction();
+                        }
+                    }else {
+                        criteriaQuery.where(criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()])));
                     }
                     return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
                 }
