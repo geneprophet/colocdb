@@ -179,8 +179,8 @@ public class Qtl2QtlService {
                         }
                     }else {
                         criteriaQuery.where(criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()])));
+                        return criteriaQuery.getRestriction();
                     }
-                    return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
                 }
 
             };
