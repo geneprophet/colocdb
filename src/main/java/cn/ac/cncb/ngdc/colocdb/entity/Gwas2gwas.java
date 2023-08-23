@@ -72,13 +72,13 @@ public class Gwas2gwas {
     @Column
     private String bp;
 
-    @Column
-    private String a1;
-
-    @Column
-    private String a2;
-
-    @Column
-    private String probe;
+//    @Column
+//    private String a1;
+//
+//    @Column
+//    private String a2;
+//
+//    @Column
+//    private String probe;
 
 }
