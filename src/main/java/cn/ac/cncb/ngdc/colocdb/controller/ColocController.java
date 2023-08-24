@@ -31,19 +31,21 @@ public class ColocController {
     @CrossOrigin
     @GetMapping("/coloc")
     public Result queryColoc(@RequestParam(value = "trait",required = false) String trait,
+                             @RequestParam(value = "qtl",required = false) String qtl,
                              @RequestParam(value = "molecule",required = false) String molecule,
                              @RequestParam(value = "tissue",required = false) String tissue,
                              @RequestParam(value = "probe",required = false) String probe,
                              @RequestParam(value = "gene_id",required = false) String gene_id,
                              @RequestParam(value = "coloc_snp",required = false) String coloc_snp,
                              @RequestParam(value = "top_snp",required = false) String top_snp,
+                             @RequestParam(value = "locus",required = false) String locus,
                              @RequestParam(value = "top_snp_gene",required = false) String top_snp_gene,
                              @RequestParam(value = "sort_field",required = false) String sort_field,
                              @RequestParam(value = "sort_direction",required = false) String sort_direction,
                              @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize,
                              @RequestParam(value = "pageIndex",required = false,defaultValue = "1") Integer pageIndex
                              ){
-        Result res = colocService.queryColoc(pageSize,pageIndex-1,trait,molecule,tissue,probe,gene_id,coloc_snp,top_snp,top_snp_gene,sort_field,sort_direction);
+        Result res = colocService.queryColoc(pageSize,pageIndex-1,trait,qtl,molecule,tissue,probe,gene_id,coloc_snp,locus,top_snp,top_snp_gene,sort_field,sort_direction);
         return res;
     }
 
@@ -51,6 +53,7 @@ public class ColocController {
     @GetMapping("/coloclike")
     public Result queryColoclike(@RequestParam(value = "trait",required = false) String trait,
                              @RequestParam(value = "keyword",required = false) String keyword,
+                             @RequestParam(value = "qtl",required = false) String qtl,
                              @RequestParam(value = "molecule",required = false) String molecule,
                              @RequestParam(value = "tissue",required = false) String tissue,
                              @RequestParam(value = "probe",required = false) String probe,
@@ -58,12 +61,13 @@ public class ColocController {
                              @RequestParam(value = "coloc_snp",required = false) String coloc_snp,
                              @RequestParam(value = "top_snp",required = false) String top_snp,
                              @RequestParam(value = "top_snp_gene",required = false) String top_snp_gene,
+                             @RequestParam(value = "locus",required = false) String locus,
                                  @RequestParam(value = "sort_field",required = false) String sort_field,
                                  @RequestParam(value = "sort_direction",required = false) String sort_direction,
                                  @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize,
                                  @RequestParam(value = "pageIndex",required = false,defaultValue = "1") Integer pageIndex
     ){
-        Result res = colocService.queryColoclike(pageSize,pageIndex-1,keyword,trait,molecule,tissue,probe,gene_id,coloc_snp,top_snp,top_snp_gene,sort_field,sort_direction);
+        Result res = colocService.queryColoclike(pageSize,pageIndex-1,keyword,trait,qtl,molecule,tissue,probe,gene_id,coloc_snp,locus,top_snp,top_snp_gene,sort_field,sort_direction);
         return res;
     }
 

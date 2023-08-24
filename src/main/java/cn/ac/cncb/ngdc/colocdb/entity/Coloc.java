@@ -23,6 +23,9 @@ public class Coloc {
     private String trait;
 
     @Column
+    private String qtl;
+
+    @Column
     private String molecule;
 
     @Column
@@ -71,6 +74,12 @@ public class Coloc {
     private Double gwas_p;
 
     @Column
+    private Double p1_threshold;
+
+    @Column
+    private Double p2_threshold;
+
+    @Column
     private Double qtl_p;
 
     @Column
@@ -82,4 +91,6 @@ public class Coloc {
     @Column
     private String oldtissue;
 
+    @Column
+    private String locus;
 }

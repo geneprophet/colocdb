@@ -24,7 +24,7 @@ public class ColocService {
     @Autowired
     ColocDAO colocDAO;
 
-    public Result queryColoc(Integer pageSize, Integer pageIndex,String trait, String molecule, String tissue, String probe, String gene_id , String coloc_snp, String top_snp, String top_snp_gene,String sort_field,String sort_direction){
+    public Result queryColoc(Integer pageSize, Integer pageIndex,String trait,String qtl, String molecule, String tissue, String probe, String gene_id , String coloc_snp,String locus , String top_snp, String top_snp_gene,String sort_field,String sort_direction){
         Long total = 0L;
         List<Coloc> data = null;
         Meta meta = new Meta();
@@ -35,6 +35,9 @@ public class ColocService {
                 List<Predicate> predicateList = new ArrayList<>();
                 if (trait != null){
                     predicateList.add(criteriaBuilder.equal(root.get("trait"),trait));
+                }
+                if (qtl != null){
+                    predicateList.add(criteriaBuilder.equal(root.get("qtl"),qtl));
                 }
                 if (molecule != null){
                     predicateList.add(criteriaBuilder.equal(root.get("molecule"),molecule));
@@ -50,6 +53,9 @@ public class ColocService {
                 }
                 if (coloc_snp != null){
                     predicateList.add(criteriaBuilder.equal(root.get("coloc_snp"),coloc_snp));
+                }
+                if (locus != null){
+                    predicateList.add(criteriaBuilder.equal(root.get("locus"),locus));
                 }
                 if (top_snp != null){
                     predicateList.add(criteriaBuilder.equal(root.get("top_snp"),top_snp));
@@ -85,7 +91,7 @@ public class ColocService {
             return ResultFactory.buildFailResult(e.toString());
         }
     }
-    public Result queryColoclike(Integer pageSize, Integer pageIndex,String keyword,String trait,String molecule, String tissue, String probe, String gene_id , String coloc_snp,String top_snp,String top_snp_gene,String sort_field,String sort_direction){
+    public Result queryColoclike(Integer pageSize, Integer pageIndex,String keyword,String trait,String qtl,String molecule, String tissue, String probe, String gene_id , String coloc_snp,String locus,String top_snp,String top_snp_gene,String sort_field,String sort_direction){
         Long total = 0L;
         List<Coloc> data = null;
         Meta meta = new Meta();
@@ -97,12 +103,15 @@ public class ColocService {
                     List<Predicate> predicateListOr = new ArrayList<>();
 //                  只模糊匹配以keywork开头的，如果模糊匹配字段任意位置出现关键词需要两边都加上%
                     predicateListOr.add(criteriaBuilder.like(root.get("trait"),"%"+keyword+"%"));
-                    predicateListOr.add(criteriaBuilder.like(root.get("gene_id"),"%"+keyword+"%"));
+                    predicateListOr.add(criteriaBuilder.like(root.get("qtl"),"%"+keyword+"%"));
                     predicateListOr.add(criteriaBuilder.like(root.get("coloc_snp"),"%"+keyword+"%"));
                     Predicate predicateOR = criteriaBuilder.or(predicateListOr.toArray(new Predicate[predicateListOr.size()]));
                     List<Predicate> predicateListAnd = new ArrayList<>();
                     if (trait != null){
                         predicateListAnd.add(criteriaBuilder.like(root.get("trait"),trait+"%"));
+                    }
+                    if (qtl != null){
+                        predicateListAnd.add(criteriaBuilder.like(root.get("qtl"),qtl+"%"));
                     }
                     if (molecule != null){
                         predicateListAnd.add(criteriaBuilder.like(root.get("molecule"),molecule+"%"));
@@ -118,6 +127,9 @@ public class ColocService {
                     }
                     if (coloc_snp != null){
                         predicateListAnd.add(criteriaBuilder.like(root.get("coloc_snp"),coloc_snp+"%"));
+                    }
+                    if (locus != null){
+                        predicateListAnd.add(criteriaBuilder.like(root.get("locus"),locus+"%"));
                     }
                     if (top_snp != null){
                         predicateListAnd.add(criteriaBuilder.like(root.get("top_snp"),top_snp+"%"));
@@ -145,6 +157,9 @@ public class ColocService {
                     if (trait != null){
                         predicateList.add(criteriaBuilder.like(root.get("trait"),trait+"%"));
                     }
+                    if (qtl != null){
+                        predicateList.add(criteriaBuilder.like(root.get("qtl"),qtl+"%"));
+                    }
                     if (molecule != null){
                         predicateList.add(criteriaBuilder.like(root.get("molecule"),molecule+"%"));
                     }
@@ -159,6 +174,9 @@ public class ColocService {
                     }
                     if (coloc_snp != null){
                         predicateList.add(criteriaBuilder.like(root.get("coloc_snp"),coloc_snp+"%"));
+                    }
+                    if (locus != null){
+                        predicateList.add(criteriaBuilder.like(root.get("locus"),locus+"%"));
                     }
                     if (top_snp != null){
                         predicateList.add(criteriaBuilder.like(root.get("top_snp"),top_snp+"%"));
