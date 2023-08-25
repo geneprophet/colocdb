@@ -22,6 +22,9 @@ public class Smr {
     private String trait;
 
     @Column
+    private String qtl;
+
+    @Column
     private String molecule;
 
     @Column

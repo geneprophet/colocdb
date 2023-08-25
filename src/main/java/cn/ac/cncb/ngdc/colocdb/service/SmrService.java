@@ -23,7 +23,7 @@ public class SmrService {
     @Autowired
     SmrDAO smrDAO;
 
-    public Result querySmr(Integer pageSize, Integer pageIndex, String trait,String tissue,String qtl_type, String gene, String topsnp, String sort_field, String sort_direction){
+    public Result querySmr(Integer pageSize, Integer pageIndex, String trait,String qtl,String tissue,String qtl_type, String gene, String topsnp, String sort_field, String sort_direction){
         Long total = 0L;
         List<Smr> data = null;
         Meta meta = new Meta();
@@ -34,6 +34,9 @@ public class SmrService {
                 List<Predicate> predicateList = new ArrayList<>();
                 if (trait != null){
                     predicateList.add(criteriaBuilder.equal(root.get("trait"),trait));
+                }
+                if (qtl != null){
+                    predicateList.add(criteriaBuilder.equal(root.get("qtl"),qtl));
                 }
                 if (tissue != null){
                     predicateList.add(criteriaBuilder.equal(root.get("tissue"),tissue));
@@ -76,7 +79,7 @@ public class SmrService {
         }
     }
 
-    public Result querySmrlike(Integer pageSize, Integer pageIndex,String keyword, String trait,String tissue,String qtl_type, String gene, String topsnp, String sort_field, String sort_direction){
+    public Result querySmrlike(Integer pageSize, Integer pageIndex,String keyword, String trait,String qtl,String tissue,String qtl_type, String gene, String topsnp, String sort_field, String sort_direction){
         Long total = 0L;
         List<Smr> data = null;
         Meta meta = new Meta();
@@ -87,13 +90,16 @@ public class SmrService {
                 if (keyword != null){
                     List<Predicate> predicateListOr = new ArrayList<>();
 //                  只模糊匹配以keywork开头的，如果模糊匹配字段任意位置出现关键词需要两边都加上%
-                    predicateListOr.add(criteriaBuilder.like(root.get("trait"),"%"+keyword+"%"));
-                    predicateListOr.add(criteriaBuilder.like(root.get("gene"),"%"+keyword+"%"));
-                    predicateListOr.add(criteriaBuilder.like(root.get("topsnp"),"%"+keyword+"%"));
+                    predicateListOr.add(criteriaBuilder.like(root.get("trait"),keyword+"%"));
+                    predicateListOr.add(criteriaBuilder.like(root.get("qtl"),keyword+"%"));
+//                    predicateListOr.add(criteriaBuilder.like(root.get("topsnp"),"%"+keyword+"%"));
                     Predicate predicateOR = criteriaBuilder.or(predicateListOr.toArray(new Predicate[predicateListOr.size()]));
                     List<Predicate> predicateListAnd = new ArrayList<>();
                     if (trait != null){
                         predicateListAnd.add(criteriaBuilder.like(root.get("trait"),trait+"%"));
+                    }
+                    if (qtl != null){
+                        predicateListAnd.add(criteriaBuilder.like(root.get("qtl"),qtl+"%"));
                     }
                     if (tissue != null){
                         predicateListAnd.add(criteriaBuilder.like(root.get("tissue"),tissue+"%"));
@@ -123,6 +129,9 @@ public class SmrService {
                     List<Predicate> predicateList = new ArrayList<>();
                     if (trait != null){
                         predicateList.add(criteriaBuilder.like(root.get("trait"),trait+"%"));
+                    }
+                    if (qtl != null){
+                        predicateList.add(criteriaBuilder.like(root.get("qtl"),qtl+"%"));
                     }
                     if (tissue != null){
                         predicateList.add(criteriaBuilder.like(root.get("tissue"),tissue+"%"));
