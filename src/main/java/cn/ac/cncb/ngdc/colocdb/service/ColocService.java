@@ -104,6 +104,7 @@ public class ColocService {
 //                  只模糊匹配以keywork开头的，如果模糊匹配字段任意位置出现关键词需要两边都加上%
                     predicateListOr.add(criteriaBuilder.like(root.get("trait"),"%"+keyword+"%"));
                     predicateListOr.add(criteriaBuilder.like(root.get("qtl"),"%"+keyword+"%"));
+                    predicateListOr.add(criteriaBuilder.like(root.get("gene_id"),"%"+keyword+"%"));
                     predicateListOr.add(criteriaBuilder.like(root.get("coloc_snp"),"%"+keyword+"%"));
                     Predicate predicateOR = criteriaBuilder.or(predicateListOr.toArray(new Predicate[predicateListOr.size()]));
                     List<Predicate> predicateListAnd = new ArrayList<>();
