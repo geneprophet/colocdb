@@ -90,6 +90,10 @@ public class Gwas2gwasService {
 //                  只模糊匹配以keywork开头的，如果模糊匹配字段任意位置出现关键词需要两边都加上%
                     predicateListOr.add(criteriaBuilder.like(root.get("gwas1"),"%"+keyword+"%"));
                     predicateListOr.add(criteriaBuilder.like(root.get("gwas2"),"%"+keyword+"%"));
+                    predicateListOr.add(criteriaBuilder.like(root.get("trait1_description"),"%"+keyword+"%"));
+                    predicateListOr.add(criteriaBuilder.like(root.get("trait2_description"),"%"+keyword+"%"));
+                    predicateListOr.add(criteriaBuilder.like(root.get("trait1_short"),"%"+keyword+"%"));
+                    predicateListOr.add(criteriaBuilder.like(root.get("trait2_short"),"%"+keyword+"%"));
                     predicateListOr.add(criteriaBuilder.like(root.get("locus"),"%"+keyword+"%"));
                     predicateListOr.add(criteriaBuilder.like(root.get("gene"),"%"+keyword+"%"));
                     predicateListOr.add(criteriaBuilder.like(root.get("coloc_snp"),"%"+keyword+"%"));

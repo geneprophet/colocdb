@@ -25,6 +25,18 @@ public class Gwas2gwas {
     private String gwas2;
 
     @Column
+    private String trait1_description;
+
+    @Column
+    private String trait1_short;
+
+    @Column
+    private String trait2_description;
+
+    @Column
+    private String trait2_short;
+
+    @Column
     private String locus;
 
     @Column

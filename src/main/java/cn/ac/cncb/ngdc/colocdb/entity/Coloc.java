@@ -23,6 +23,12 @@ public class Coloc {
     private String trait;
 
     @Column
+    private String trait_description;
+
+    @Column
+    private String trait_short;
+
+    @Column
     private String qtl;
 
     @Column
