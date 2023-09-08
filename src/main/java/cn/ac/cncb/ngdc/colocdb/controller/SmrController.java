@@ -16,6 +16,7 @@ public class SmrController {
     @CrossOrigin
     @GetMapping("/smr")
     public Result querySmr(@RequestParam(value = "trait",required = false) String trait,
+                             @RequestParam(value = "trait_description",required = false) String trait_description,
                              @RequestParam(value = "qtl",required = false) String qtl,
                              @RequestParam(value = "tissue",required = false) String tissue,
                              @RequestParam(value = "qtl_type",required = false) String qtl_type,
@@ -26,7 +27,7 @@ public class SmrController {
                              @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize,
                              @RequestParam(value = "pageIndex",required = false,defaultValue = "1") Integer pageIndex
     ){
-        Result res = smrService.querySmr(pageSize,pageIndex-1,trait,qtl,tissue,qtl_type,gene,topsnp,sort_field,sort_direction);
+        Result res = smrService.querySmr(pageSize,pageIndex-1,trait,trait_description,qtl,tissue,qtl_type,gene,topsnp,sort_field,sort_direction);
         return res;
     }
 
@@ -34,6 +35,7 @@ public class SmrController {
     @GetMapping("/smrlike")
     public Result querySmrLike(@RequestParam(value = "trait",required = false) String trait,
                              @RequestParam(value = "keyword",required = false) String keyword,
+                             @RequestParam(value = "trait_description",required = false) String trait_description,
                              @RequestParam(value = "qtl",required = false) String qtl,
                              @RequestParam(value = "tissue",required = false) String tissue,
                              @RequestParam(value = "qtl_type",required = false) String qtl_type,
@@ -44,7 +46,7 @@ public class SmrController {
                              @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize,
                              @RequestParam(value = "pageIndex",required = false,defaultValue = "1") Integer pageIndex
     ){
-        Result res = smrService.querySmrlike(pageSize,pageIndex-1,keyword,trait,qtl,tissue,qtl_type,gene,topsnp,sort_field,sort_direction);
+        Result res = smrService.querySmrlike(pageSize,pageIndex-1,keyword,trait,trait_description,qtl,tissue,qtl_type,gene,topsnp,sort_field,sort_direction);
         return res;
     }
 }

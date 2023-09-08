@@ -23,7 +23,7 @@ public class SmrService {
     @Autowired
     SmrDAO smrDAO;
 
-    public Result querySmr(Integer pageSize, Integer pageIndex, String trait,String qtl,String tissue,String qtl_type, String gene, String topsnp, String sort_field, String sort_direction){
+    public Result querySmr(Integer pageSize, Integer pageIndex, String trait,String trait_description,String qtl,String tissue,String qtl_type, String gene, String topsnp, String sort_field, String sort_direction){
         Long total = 0L;
         List<Smr> data = null;
         Meta meta = new Meta();
@@ -34,6 +34,9 @@ public class SmrService {
                 List<Predicate> predicateList = new ArrayList<>();
                 if (trait != null){
                     predicateList.add(criteriaBuilder.equal(root.get("trait"),trait));
+                }
+                if (trait_description != null){
+                    predicateList.add(criteriaBuilder.equal(root.get("trait_description"),trait_description));
                 }
                 if (qtl != null){
                     predicateList.add(criteriaBuilder.equal(root.get("qtl"),qtl));
@@ -79,7 +82,7 @@ public class SmrService {
         }
     }
 
-    public Result querySmrlike(Integer pageSize, Integer pageIndex,String keyword, String trait,String qtl,String tissue,String qtl_type, String gene, String topsnp, String sort_field, String sort_direction){
+    public Result querySmrlike(Integer pageSize, Integer pageIndex,String keyword, String trait,String trait_description,String qtl,String tissue,String qtl_type, String gene, String topsnp, String sort_field, String sort_direction){
         Long total = 0L;
         List<Smr> data = null;
         Meta meta = new Meta();
@@ -97,6 +100,9 @@ public class SmrService {
                     List<Predicate> predicateListAnd = new ArrayList<>();
                     if (trait != null){
                         predicateListAnd.add(criteriaBuilder.like(root.get("trait"),trait+"%"));
+                    }
+                    if (trait_description != null){
+                        predicateListAnd.add(criteriaBuilder.like(root.get("trait_description"),trait_description+"%"));
                     }
                     if (qtl != null){
                         predicateListAnd.add(criteriaBuilder.like(root.get("qtl"),qtl+"%"));
@@ -129,6 +135,9 @@ public class SmrService {
                     List<Predicate> predicateList = new ArrayList<>();
                     if (trait != null){
                         predicateList.add(criteriaBuilder.like(root.get("trait"),trait+"%"));
+                    }
+                    if (trait_description != null){
+                        predicateList.add(criteriaBuilder.like(root.get("trait_description"),trait_description+"%"));
                     }
                     if (qtl != null){
                         predicateList.add(criteriaBuilder.like(root.get("qtl"),qtl+"%"));

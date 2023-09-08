@@ -31,6 +31,7 @@ public class ColocController {
     @CrossOrigin
     @GetMapping("/coloc")
     public Result queryColoc(@RequestParam(value = "trait",required = false) String trait,
+                             @RequestParam(value = "trait_description",required = false) String trait_description,
                              @RequestParam(value = "qtl",required = false) String qtl,
                              @RequestParam(value = "molecule",required = false) String molecule,
                              @RequestParam(value = "tissue",required = false) String tissue,
@@ -45,7 +46,7 @@ public class ColocController {
                              @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize,
                              @RequestParam(value = "pageIndex",required = false,defaultValue = "1") Integer pageIndex
                              ){
-        Result res = colocService.queryColoc(pageSize,pageIndex-1,trait,qtl,molecule,tissue,probe,gene_id,coloc_snp,locus,top_snp,top_snp_gene,sort_field,sort_direction);
+        Result res = colocService.queryColoc(pageSize,pageIndex-1,trait,trait_description,qtl,molecule,tissue,probe,gene_id,coloc_snp,locus,top_snp,top_snp_gene,sort_field,sort_direction);
         return res;
     }
 
@@ -53,6 +54,7 @@ public class ColocController {
     @GetMapping("/coloclike")
     public Result queryColoclike(@RequestParam(value = "trait",required = false) String trait,
                              @RequestParam(value = "keyword",required = false) String keyword,
+                                 @RequestParam(value = "trait_description",required = false) String trait_description,
                              @RequestParam(value = "qtl",required = false) String qtl,
                              @RequestParam(value = "molecule",required = false) String molecule,
                              @RequestParam(value = "tissue",required = false) String tissue,
@@ -67,7 +69,7 @@ public class ColocController {
                                  @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize,
                                  @RequestParam(value = "pageIndex",required = false,defaultValue = "1") Integer pageIndex
     ){
-        Result res = colocService.queryColoclike(pageSize,pageIndex-1,keyword,trait,qtl,molecule,tissue,probe,gene_id,coloc_snp,locus,top_snp,top_snp_gene,sort_field,sort_direction);
+        Result res = colocService.queryColoclike(pageSize,pageIndex-1,keyword,trait,trait_description,qtl,molecule,tissue,probe,gene_id,coloc_snp,locus,top_snp,top_snp_gene,sort_field,sort_direction);
         return res;
     }
 

@@ -24,7 +24,7 @@ public class ColocService {
     @Autowired
     ColocDAO colocDAO;
 
-    public Result queryColoc(Integer pageSize, Integer pageIndex,String trait,String qtl, String molecule, String tissue, String probe, String gene_id , String coloc_snp,String locus , String top_snp, String top_snp_gene,String sort_field,String sort_direction){
+    public Result queryColoc(Integer pageSize, Integer pageIndex,String trait,String trait_description,String qtl, String molecule, String tissue, String probe, String gene_id , String coloc_snp,String locus , String top_snp, String top_snp_gene,String sort_field,String sort_direction){
         Long total = 0L;
         List<Coloc> data = null;
         Meta meta = new Meta();
@@ -35,6 +35,9 @@ public class ColocService {
                 List<Predicate> predicateList = new ArrayList<>();
                 if (trait != null){
                     predicateList.add(criteriaBuilder.equal(root.get("trait"),trait));
+                }
+                if (trait_description != null){
+                    predicateList.add(criteriaBuilder.equal(root.get("trait_description"),trait_description));
                 }
                 if (qtl != null){
                     predicateList.add(criteriaBuilder.equal(root.get("qtl"),qtl));
@@ -91,7 +94,7 @@ public class ColocService {
             return ResultFactory.buildFailResult(e.toString());
         }
     }
-    public Result queryColoclike(Integer pageSize, Integer pageIndex,String keyword,String trait,String qtl,String molecule, String tissue, String probe, String gene_id , String coloc_snp,String locus,String top_snp,String top_snp_gene,String sort_field,String sort_direction){
+    public Result queryColoclike(Integer pageSize, Integer pageIndex,String keyword,String trait,String trait_description,String qtl,String molecule, String tissue, String probe, String gene_id , String coloc_snp,String locus,String top_snp,String top_snp_gene,String sort_field,String sort_direction){
         Long total = 0L;
         List<Coloc> data = null;
         Meta meta = new Meta();
@@ -112,6 +115,9 @@ public class ColocService {
                     List<Predicate> predicateListAnd = new ArrayList<>();
                     if (trait != null){
                         predicateListAnd.add(criteriaBuilder.like(root.get("trait"),trait+"%"));
+                    }
+                    if (trait_description != null){
+                        predicateListAnd.add(criteriaBuilder.like(root.get("trait_description"),trait_description+"%"));
                     }
                     if (qtl != null){
                         predicateListAnd.add(criteriaBuilder.like(root.get("qtl"),qtl+"%"));
@@ -159,6 +165,9 @@ public class ColocService {
                     List<Predicate> predicateList = new ArrayList<>();
                     if (trait != null){
                         predicateList.add(criteriaBuilder.like(root.get("trait"),trait+"%"));
+                    }
+                    if (trait_description != null){
+                        predicateList.add(criteriaBuilder.like(root.get("trait_description"),trait_description+"%"));
                     }
                     if (qtl != null){
                         predicateList.add(criteriaBuilder.like(root.get("qtl"),qtl+"%"));
