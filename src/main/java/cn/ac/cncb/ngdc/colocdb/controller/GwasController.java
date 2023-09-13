@@ -17,6 +17,7 @@ public class GwasController {
     @GetMapping("/gwas")
     public Result queryGwas(@RequestParam(value = "trait",required = false) String trait,
                              @RequestParam(value = "datasetid",required = false) String datasetid,
+                             @RequestParam(value = "dataset",required = false) String dataset,
                              @RequestParam(value = "description",required = false) String description,
                              @RequestParam(value = "population",required = false) String population,
                              @RequestParam(value = "trait_type",required = false) String trait_type,
@@ -26,7 +27,7 @@ public class GwasController {
                              @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize,
                              @RequestParam(value = "pageIndex",required = false,defaultValue = "1") Integer pageIndex
     ){
-        Result res = gwasService.queryGwas(pageSize,pageIndex-1,datasetid,description,trait,population,trait_type,pmid,sort_field,sort_direction);
+        Result res = gwasService.queryGwas(pageSize,pageIndex-1,datasetid,dataset,description,trait,population,trait_type,pmid,sort_field,sort_direction);
         return res;
     }
 
@@ -34,6 +35,7 @@ public class GwasController {
     @GetMapping("/gwaslike")
     public Result queryGwasLike(@RequestParam(value = "trait",required = false) String trait,
                             @RequestParam(value = "datasetid",required = false) String datasetid,
+                            @RequestParam(value = "dataset",required = false) String dataset,
                             @RequestParam(value = "keyword",required = false) String keyword,
                             @RequestParam(value = "description",required = false) String description,
                             @RequestParam(value = "population",required = false) String population,
@@ -42,7 +44,7 @@ public class GwasController {
                             @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize,
                             @RequestParam(value = "pageIndex",required = false,defaultValue = "1") Integer pageIndex
     ){
-        Result res = gwasService.queryGwasLike(pageSize,pageIndex-1,keyword,datasetid,description,trait,population,trait_type,pmid);
+        Result res = gwasService.queryGwasLike(pageSize,pageIndex-1,keyword,datasetid,dataset,description,trait,population,trait_type,pmid);
         return res;
     }
 }

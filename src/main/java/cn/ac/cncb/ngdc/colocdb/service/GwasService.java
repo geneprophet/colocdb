@@ -22,7 +22,7 @@ public class GwasService {
     @Autowired
     GwasDAO gwasDAO;
 
-    public Result queryGwas(Integer pageSize, Integer pageIndex, String datasetid, String description, String trait, String population, String trait_type,String pmid, String sort_field, String sort_direction){
+    public Result queryGwas(Integer pageSize, Integer pageIndex, String datasetid,String dataset, String description, String trait, String population, String trait_type,String pmid, String sort_field, String sort_direction){
         Long total = 0L;
         List<Gwas> data = null;
         Meta meta = new Meta();
@@ -33,6 +33,9 @@ public class GwasService {
                 List<Predicate> predicateList = new ArrayList<>();
                 if (datasetid != null){
                     predicateList.add(criteriaBuilder.equal(root.get("datasetid"),datasetid));
+                }
+                if (dataset != null){
+                    predicateList.add(criteriaBuilder.equal(root.get("dataset"),dataset));
                 }
                 if (description != null){
                     predicateList.add(criteriaBuilder.equal(root.get("description"),description));
@@ -78,7 +81,7 @@ public class GwasService {
         }
     }
 
-    public Result queryGwasLike(Integer pageSize, Integer pageIndex,String keyword,String datasetid, String description,String trait,String population, String trait_type,String pmid){
+    public Result queryGwasLike(Integer pageSize, Integer pageIndex,String keyword,String datasetid,String dataset, String description,String trait,String population, String trait_type,String pmid){
         Long total = 0L;
         List<Gwas> data = null;
         Meta meta = new Meta();
@@ -102,6 +105,9 @@ public class GwasService {
                     if (datasetid != null){
                         predicateListAnd.add(criteriaBuilder.like(root.get("datasetid"),datasetid+"%"));
                     }
+                    if (dataset != null){
+                        predicateListAnd.add(criteriaBuilder.like(root.get("dataset"),dataset+"%"));
+                    }
                     if (population != null){
                         predicateListAnd.add(criteriaBuilder.like(root.get("population"),population+"%"));
                     }
@@ -124,6 +130,9 @@ public class GwasService {
                     }
                     if (datasetid != null){
                         predicateList.add(criteriaBuilder.like(root.get("datasetid"),datasetid+"%"));
+                    }
+                    if (dataset != null){
+                        predicateList.add(criteriaBuilder.like(root.get("dataset"),dataset+"%"));
                     }
                     if (population != null){
                         predicateList.add(criteriaBuilder.like(root.get("population"),population+"%"));
