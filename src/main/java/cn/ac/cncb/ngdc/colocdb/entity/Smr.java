@@ -28,6 +28,12 @@ public class Smr {
     private String trait_short;
 
     @Column
+    private String trait_population;
+
+    @Column
+    private String qtl_population;
+
+    @Column
     private String qtl;
 
     @Column

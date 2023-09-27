@@ -25,6 +25,12 @@ public class Qtl2Qtl {
     private String qtl2;
 
     @Column
+    private String qtl_population1;
+
+    @Column
+    private String qtl_population2;
+
+    @Column
     private String locus;
 
     @Column
