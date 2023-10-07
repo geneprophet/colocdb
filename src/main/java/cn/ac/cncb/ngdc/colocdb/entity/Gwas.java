@@ -31,6 +31,9 @@ public class Gwas {
     private String trait;
 
     @Column
+    private String short_name;
+
+    @Column
     private String description;
 
     @Column
@@ -38,6 +41,12 @@ public class Gwas {
 
     @Column
     private String trait_type;
+
+    @Column
+    private String build;
+
+    @Column
+    private String threshold;
 
     @Column
     private Double n_control;
@@ -55,5 +64,20 @@ public class Gwas {
     private String year;
 
     @Column
+    private String journal;
+
+    @Column
+    private String title;
+
+    @Column
     private String source;
+
+    @Column
+    private String resource;
+
+    @Column
+    private String coloc;
+
+    @Column
+    private String smr;
 }
